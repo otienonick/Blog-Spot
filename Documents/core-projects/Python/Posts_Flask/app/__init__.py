@@ -26,7 +26,7 @@ def create_app(config_name):
     app.register_blueprint(views,url_prefix = '/')
     app.register_blueprint(auth,url_prefix = '/')
 
-    from .models import User,Post
+    from .models import User,Post,Comment
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))

@@ -11,12 +11,23 @@ class User(db.Model,UserMixin):
     date_created = db.Column(db.DateTime(timezone =True),default = func.now())
     posts = db.relationship('Post',backref = 'user',passive_deletes = True)
 
+
 class Post(db.Model):
-    __tablename__ = 'posts'
+    __tablename__ = 'post'
     id = db.Column(db.Integer,primary_key = True)
     text = db.Column(db.String,nullable = False)
     date_created = db.Column(db.DateTime(timezone =True),default = func.now())
     author = db.Column(db.Integer,db.ForeignKey('user.id',ondelete = 'CASCADE'),nullable = False)
+    comments = db.relationship('Comment', backref='post', passive_deletes=True)
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer,primary_key = True)
+    text = db.Column(db.String(200),nullable = False)
+    date_created = db.Column(db.DateTime(timezone =True),default = func.now())
+    author = db.Column(db.Integer,db.ForeignKey('user.id',ondelete = 'CASCADE'),nullable = False)
+    post_id = db.Column(db.Integer,db.ForeignKey('post.id',ondelete = 'CASCADE'),nullable = False)
 
 
 
