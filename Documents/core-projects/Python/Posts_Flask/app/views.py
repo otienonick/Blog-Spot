@@ -77,3 +77,18 @@ def create_comment(post_id):
         else:
             flash('Post does not exist',category='error')    
     return redirect(url_for('views.index'))
+
+@views.route('/delete-comment/<comment_id>')   
+def  delete_comment(comment_id):
+        comment = Comment.query.filter_by(id =comment_id).first()
+
+        if not comment:
+            flash('comment does not exist!', category='error')
+  
+        else:    
+            db.session.delete(comment)
+            db.session.commit()
+            flash('Comment deleted',category='success')
+
+        return redirect(url_for('views.index'))
+
